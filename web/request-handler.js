@@ -6,11 +6,16 @@ var helpers = require('./http-helpers');
 
 var actions = {
   GET: function (req, res) {
-    if(req.url === '/'){
+    if(req.url === '/' || req.url === ''){
       helpers.serveAssets(res, '/index.html', function(){
         console.log('OMGGGGGGG');
-      })
-    }
+      }, 'text/html')
+    } else {
+        helpers.serveAssets(res, '/styles.css', function(){
+          console.log('else');
+
+        }, 'text/css');
+      }
     //helpers.sendResponse(res, 'success!', 200);
   },
   POST: function (req, res) {},
@@ -21,6 +26,7 @@ var actions = {
 exports.handleRequest = function (req, res) {
   if(actions[req.method]){
     actions[req.method](req, res);
+  } else{
+    res.end();
   }
-  res.end();
 };

@@ -1,11 +1,14 @@
 var path = require('path');
 var fs = require('fs');
 var archive = require('../helpers/archive-helpers');
-var self = this
+var self = this;
 
-exports.sendResponse = function(res, data, statusCode){
+exports.sendResponse = function(res, data, statusCode, contentType){
+  if(contentType){
+    headers['Content-Type'] = contentType;
+  }
   res.writeHead(statusCode, self.headers);
-  res.write(data)
+  res.end(data.toString());
 }
 
 exports.headers = headers = {
@@ -16,13 +19,14 @@ exports.headers = headers = {
   'Content-Type': "text/html"
 };
 
-exports.serveAssets = function(res, asset, callback) {
+exports.serveAssets = function(res, asset, callback, contentType) {
   // Write some code here that helps serve up your static files!
   // (Static files are things like html (yours or archived from others...), css, or anything that doesn't change often.)
-  fs.readFile(archive.paths.siteAssets + asset, function(err, data){
-    if(err){throw err}    
-    self.sendResponse(res, data.toString('utf-8'), 200);
-    console.log(data.toString('utf-8'))
+  fs.readFile(archive.paths.siteAssets + asset, 'utf8', function(err, data){
+    // if(err){console.log('issaq is da man/ logception')}
+    self.sendResponse(res, data, 200, contentType );
+    // callback();
+
   });
 };
 
