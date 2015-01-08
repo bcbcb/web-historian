@@ -21,3 +21,4 @@ module.exports = function () {
     fs.mkdirSync("./archives/sites");
   }
 };
+
