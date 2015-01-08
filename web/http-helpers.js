@@ -1,10 +1,11 @@
 var path = require('path');
 var fs = require('fs');
 var archive = require('../helpers/archive-helpers');
-
+var self = this
 
 exports.sendResponse = function(res, data, statusCode){
-  res.writeHead(statusCode, headers);
+  res.writeHead(statusCode, self.headers);
+  res.write(data)
 }
 
 exports.headers = headers = {
@@ -19,12 +20,11 @@ exports.serveAssets = function(res, asset, callback) {
   // Write some code here that helps serve up your static files!
   // (Static files are things like html (yours or archived from others...), css, or anything that doesn't change often.)
   fs.readFile(archive.paths.siteAssets + asset, function(err, data){
-    if(err){throw err}
-    sendResponse(res, data, 200);
+    if(err){throw err}    
+    self.sendResponse(res, data.toString('utf-8'), 200);
+    console.log(data.toString('utf-8'))
   });
 };
-
-
 
 // As you progress, keep thinking about what helper functions you can put here!
 

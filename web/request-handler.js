@@ -6,7 +6,12 @@ var helpers = require('./http-helpers');
 
 var actions = {
   GET: function (req, res) {
-    sendResponse(res, 'success!', 200);
+    if(req.url === '/'){
+      helpers.serveAssets(res, '/index.html', function(){
+        console.log('OMGGGGGGG');
+      })
+    }
+    //helpers.sendResponse(res, 'success!', 200);
   },
   POST: function (req, res) {},
   OPTIONS: function (req, res) {},
@@ -17,6 +22,5 @@ exports.handleRequest = function (req, res) {
   if(actions[req.method]){
     actions[req.method](req, res);
   }
-  console.log(res)
-  res.end(archive.paths.list);
+  res.end();
 };
