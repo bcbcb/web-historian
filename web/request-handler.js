@@ -1,7 +1,8 @@
 var path = require('path');
 var archive = require('../helpers/archive-helpers');
 var helpers = require('./http-helpers');
-var url = require('url')
+var url = require('url');
+var fs = require('fs');
 
 // require more modules/folders here!
 
@@ -37,8 +38,8 @@ var actions = {
       console.log(data.substr(4))
       console.log(archive.paths.list)
       // console.log(querystring.parse(data).url)
-      fs.appendFile(archive.paths.list, data.subst(4), function(){
-        if(err){console.log('messed up')}
+      fs.appendFile(archive.paths.list, data.substr(4), function(){
+        // if(err){console.log('messed up')}
         console.log('yeahhh')
       })
     });
